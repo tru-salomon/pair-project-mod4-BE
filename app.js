@@ -15,5 +15,14 @@ app.get("/", (req, res) => {
     res.send("Welcome to Superhero ID card app");
 });
 
+// ids ROUTES
+const idsController = require("./controllers/idsController.js");
+app.use("/ids", idsController);
+
+// 404 PAGE
+app.get("*", (req, res) => {
+    res.status(404).send("Page not found");
+});
+
 // EXPORT
 module.exports = app;
