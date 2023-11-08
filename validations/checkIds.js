@@ -23,11 +23,17 @@ const checkDob = (req, res, next) => {
 }
 
 const checkAdult = (req, res, next) => {
-    if (typeof req.body.adult === 'boolean') {
-        return next();
+    const { adult } = req.body;
+
+    if (adult == "true" ||
+        adult == "false" ||
+        adult == undefined ||
+        typeof adult == 'boolean'
+    ) {
+        next();
     } else {
         res.status(400).json({ error: "adult must be a boolean" });
     }
 }
 
-    module.exports = { checkAlias, checkLastname, checkDob, checkAdult };
+module.exports = { checkAlias, checkLastname, checkDob, checkAdult };
