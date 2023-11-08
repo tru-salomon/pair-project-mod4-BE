@@ -1,7 +1,10 @@
 
 const express = require("express");
 const ids = express.Router();
-const { getAllIds, getId, createId } = require("../queries/ids.js")
+const { getAllIds, getId, createId } = require("../queries/ids.js");
+const { checkAlias, checkLastname, checkDob, checkAdult } = require("../validations/checkIds.js");
+
+
 // INDEX
 ids.get("/", async (req, res) => {
     const allIds = await getAllIds();
@@ -24,7 +27,7 @@ ids.get("/:key", async (req, res) => {
 });
 
 //CREATE
-ids.post("/", async (req, res) => {
+ids.post("/", checkAlias, checkLastname, checkDob, checkAdult, async (req, res) => {
     const id = await createId(req.body);
     res.json(id);
 });
