@@ -29,9 +29,35 @@ const createId = async (id) => {
     }
 }
 
+const deleteId = async (key) => {
+    try {
+        const deletedId = await db.one(
+            "DELETE FROM ids WHERE key = $1 RETURNING *",
+            key
+        );
+        return deletedId
+    } catch (error) {
+        return error;
+    }
+};
+
+const updateId = async (key, id) => {
+    try {
+        const updatedId = await db.one(
+            "UPDATE ids SET alias=$1, lastname=$2, dob=$3, adult=$4 RETURNING *",
+            [id.alias, id.lastname, id.dob, id.adult]
+        );
+        return updatedId;
+    } catch (error) {
+        return error;
+    }
+};
+
 
 module.exports = {
     getAllIds,
     getId,
     createId,
+    deleteId,
+    updateId
 };
