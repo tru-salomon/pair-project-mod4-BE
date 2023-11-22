@@ -9,7 +9,7 @@ const getAllIds = async () => {
     }
 };
 
-const getId = async () => {
+const getId = async (key) => {
     try {
         const oneId = await db.one("SELECT * FROM ids WHERE key=$1", key);
         return oneId;
@@ -44,8 +44,8 @@ const deleteId = async (key) => {
 const updateId = async (key, id) => {
     try {
         const updatedId = await db.one(
-            "UPDATE ids SET alias=$1, lastname=$2, dob=$3, adult=$4 RETURNING *",
-            [id.alias, id.lastname, id.dob, id.adult]
+            "UPDATE ids SET alias=$1, lastname=$2, dob=$3, adult=$4 WHERE key=$5 RETURNING *",
+            [id.alias, id.lastname, id.dob, id.adult, key]
         );
         return updatedId;
     } catch (error) {
